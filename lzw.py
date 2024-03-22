@@ -164,7 +164,7 @@ class FilesWriter:
     *Reinitialize the dictionary.
 '''
 class LZWDict:
-    piz = True
+    
     def init_dict_comp(self, DICT:dict)->dict:
         DICT.clear()
         DICT.update({bytes([v]): v for v in range(256)})
@@ -176,13 +176,9 @@ class LZWDict:
         return DICT
 
     def update_dict_comp(self, DICT:dict, code:int, string:bytes):
-        if self.piz and code <= 723: print("DICT:", code, string)
-        else: self.piz = False
         DICT.update({string: code})
 
     def update_dict_decomp(self, DICT:dict, code:int, string:bytes):
-        if self.piz and code <= 723: print("DICT:", code, string)
-        else: self.piz = False
         DICT.update({code: string})
 
 '''

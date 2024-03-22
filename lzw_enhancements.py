@@ -278,7 +278,6 @@ class VariableWidthLZWProcessor(LZWProcessor):
     
     @classmethod
     def update_code_size(cls, writer:BaseLZWWriter, code_size:int):
-        print("update code size", code_size)
         cls.N_BITS = code_size
         cls.EOF = cls.CUR_DICT_LIMIT = dict_limit(code_size)
         writer.set_code_size(cls.N_BITS)
@@ -356,8 +355,8 @@ class VariableWidthLZWProcessor(LZWProcessor):
                 STRING, CHAR = None, None
                 if CURRENT is None: break
                 continue
-
-            STRING = DICT[CURRENT]
+            
+            STRING = DICT[CURRENT] 
             writer.write(i, STRING)
             if NEXT is None: break
             if NEXT in DICT:
@@ -369,8 +368,16 @@ class VariableWidthLZWProcessor(LZWProcessor):
                     cls.update_code_size(reader, cls.N_BITS+1)
                     lzw_dict.update_dict_decomp(DICT, len(DICT), STRING+CHAR)
                 else:
+                    # Write the string first
+                    STRING = DICT[NEXT]
+                    writer.write(i, STRING)
+                    # Reset the dictionary
                     lzw_dict.init_dict_decomp(DICT)
                     cls.update_code_size(reader, cls.MIN_BITS)
+                    # Read next character
+                    CURRENT = NEXT = reader.read_code()
+                    STRING, CHAR = None, None
+                    if CURRENT is None: break
             else:
                 lzw_dict.update_dict_decomp(DICT, len(DICT), STRING+CHAR)
             CURRENT = NEXT
@@ -435,10 +442,10 @@ def main():
         '''
             Add code to decompress files
         '''
-        #try:
-        lzw_processor.decompress(reader, output_file_names)
-        #except Exception:
-        #    print(f'Incorrect encryption key provided. If you are certain that you used the correct key, \nplease also make sure that you are using the same python version, as the behavior of random.randint() may differ.')
+        try:
+            lzw_processor.decompress(reader, output_file_names)
+        except Exception:
+            print(f'Incorrect encryption key provided. If you are certain that you used the correct key, \nplease also make sure that you are using the same python version, as the behavior of random.randint() may differ.')
 
     else:
         print_usage()

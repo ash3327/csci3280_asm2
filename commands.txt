@@ -12,6 +12,8 @@ python lzw_enhancements.py -c output\out_en32_v.lzw input\CSE.txt input\web.bmp 
 python lzw_enhancements.py -c output\out_en32_hex_v.lzw input\CSE.txt input\web.bmp input\Windows.txt -v -t hex -e 32
 python lzw_enhancements.py -c output\out_en32_base64_v.lzw input\CSE.txt input\web.bmp input\Windows.txt -v -t base64 -e 32
 
+python lzw.py -c output\out_basic.lzw input\CSE.txt input\web.bmp input\Windows.txt
+
 python lzw_enhancements.py -d output\out.lzw -o uncompressed
 python lzw_enhancements.py -d output\out_hex.lzw -o uncompressed -t hex
 python lzw_enhancements.py -d output\out_base64.lzw -o uncompressed -t base64
@@ -26,4 +28,5 @@ python lzw_enhancements.py -d output\out_en32_v.lzw -o uncompressed -v -e 32
 python lzw_enhancements.py -d output\out_en32_hex_v.lzw -o uncompressed -v -t hex -e 32
 python lzw_enhancements.py -d output\out_en32_base64_v.lzw -o uncompressed -v -t base64 -e 32
 
+python lzw.py -d output\out_basic.lzw -o uncompressed
 python lzw_enhancements.py -d compressed.lzw -o uncompressed

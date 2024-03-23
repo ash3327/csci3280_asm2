@@ -71,6 +71,9 @@ class EncryptedLZWWriter(BaseLZWWriter):
             pass
         self.parent_writer.write_code(code)
 
+    def flush(self):
+        self.parent_writer.flush()
+
     '''
         *Offset function that performs encryption on the file names.
         TODO: prevent encoding to value b'' and b'\n'
@@ -323,7 +326,7 @@ class VariableWidthLZWProcessor(LZWProcessor):
                 writer.write_code(cls.EOF)
             
         writer.write_code(EOF)
-        writer.write_code(0)
+        writer.flush()
 
         print("\tDone.")
 

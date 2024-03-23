@@ -37,6 +37,8 @@ class BaseLZWWriter:
 
     def write_code(self, code):'''Write a code of size CODE_SIZE to the output file\nRemember to write extra bits to flush the buffer after you have written all the codes'''
 
+    def flush(self):'''Write extra bits to flush the buffer after you have written all the codes'''
+
     def read_file_header(self)->list:'''Read the file header and return the list of file stored in the compressed file'''
 
     def write_file_header(self, input_file_names):'''Write the file header to the compressed file containing names of the files'''
@@ -100,6 +102,16 @@ class LZWWriter(BaseLZWWriter):
             output_file.write(output_byte.to_bytes(1, 'big'))
             write_code.buffer &= (1 << write_code.buffer_bit_count) - 1
         return
+    
+    def flush(self):
+        write_code = self
+
+        if not hasattr(write_code, 'buffer'):
+            write_code.buffer = 0
+            write_code.buffer_bit_count = 0
+        if write_code.buffer_bit_count > 0:
+            self.code_size = write_code.buffer_bit_count
+            self.write_code(0)
 
     '''
         Read the file header and return the list of file stored in the compressed file
@@ -219,7 +231,7 @@ class LZWProcessor:
                 writer.write_code(EOF)
         
         writer.write_code(EOF)
-        writer.write_code(0)
+        writer.flush()
 
         print("\tDone.")
 

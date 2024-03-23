@@ -322,6 +322,7 @@ class VariableWidthLZWProcessor(LZWProcessor):
                 writer.write_code(DICT[STRING])
                 writer.write_code(cls.EOF)
             
+        writer.write_code(EOF)
         writer.write_code(0)
 
         print("\tDone.")
@@ -350,6 +351,8 @@ class VariableWidthLZWProcessor(LZWProcessor):
             if NEXT == cls.EOF: 
                 writer.write(i, DICT[CURRENT])
                 i += 1
+                if i >= len(writer.file_names):
+                    break
 
                 CURRENT = reader.read_code()
                 STRING, CHAR = None, None

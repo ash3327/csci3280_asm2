@@ -399,8 +399,8 @@ def main():
     if has_variable_code:   print('Variable-width code is enabled.')
     
     lzw_processor   = LZW_PROCESSORS[has_variable_code]
-    base_writer     = BASE_WRITERS[opt.text]
     encryptor       = EncryptedLZWWriter
+    base_writer     = BASE_WRITERS[opt.text]
 
     if opt.c is not None and opt.input_files != []:
         input_file_names = opt.input_files

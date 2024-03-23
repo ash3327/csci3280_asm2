@@ -297,7 +297,7 @@ def main():
         
         output_dir = opt.o
         if not isdir(output_dir):
-            os.mkdir(output_dir)
+            os.makedirs(output_dir, exist_ok=True)
         for i, output_file_name in enumerate(output_file_names):
             output_file_name = basename(output_file_name)
             output_file_names[i] = join(output_dir, output_file_name)
